@@ -131,13 +131,19 @@ We chose **Gemini 3 Flash** not just for its multimodal capabilities, but for it
 Create a `.env` file in `backend/`:
 
 ```bash
-DATABASE_URL="postgresql://admin:password123@postgres:5432/ai_assessment_db"
-GEMINI_API_KEY="your_api_key_here"
-GEMINI_MODEL_NAME="gemini-2.0-flash-exp"
-REDIS_HOST="redis"
-PRESIDIO_ANALYZER_URL="http://presidio-analyzer:3000"
-PRESIDIO_ANONYMIZER_URL="http://presidio-anonymizer:3000"
-AI_PROVIDER="GEMINI"
+DATABASE_URL="postgresql://admin:password123@localhost:5432/ai_assessment_db?schema=public"
+
+JWT_SECRET="super-secret-ai-key-2026"
+
+PORT=3000
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+GEMINI_API_KEY="..."
+
+PRESIDIO_ANALYZER_URL=http://presidio-analyzer:5001
+PRESIDIO_ANONYMIZER_URL=http://presidio-anonymizer:5002
 
 ```
 
