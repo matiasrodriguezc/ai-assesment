@@ -7,7 +7,6 @@ import { PiiService } from '../services/pii.service';
 import { LLMFactory } from '../services/llm/llmFactory';
 
 const prisma = new PrismaClient();
-// ❌ Ya no instanciamos GoogleGenerativeAI aquí. Lo hace la Factory.
 
 const connection = new IORedis({
   host: process.env.REDIS_HOST || 'localhost',
@@ -23,7 +22,6 @@ interface JobData {
   filePath: string;
 }
 
-// Helper para detectar MimeType (Magic Bytes)
 function detectMimeType(buffer: Buffer): string {
   const signature = buffer.toString('hex', 0, 12).toUpperCase();
   if (signature.startsWith('25504446')) return 'application/pdf';
@@ -38,7 +36,6 @@ export const documentWorker = new Worker('document-processing', async (job: Job<
   const { documentId, filePath } = job.data;
   console.log(`Processing job ${job.id} for document ${documentId}`);
 
-  // 👇 Instanciamos el proveedor (Gemini, Mock, OpenAI, etc.)
   const llm = LLMFactory.getProvider();
 
   try {
@@ -47,17 +44,16 @@ export const documentWorker = new Worker('document-processing', async (job: Job<
       data: { status: 'PROCESSING' }
     });
 
-    // 📝 AUDIT LOG: Inicio del proceso
     await prisma.auditLog.create({
       data: { action: 'PROCESS_START', status: 'INFO', details: `Started processing document ${documentId}` }
     });
 
-    console.log(`📂 Leyendo archivo ${path.basename(filePath)}...`);
+    console.log(`📂 Reading file ${path.basename(filePath)}...`);
     const fileBuffer = fs.readFileSync(filePath);
     const mimeType = detectMimeType(fileBuffer);
     const base64Data = fileBuffer.toString('base64');
     
-    console.log(`ℹ️ MimeType REAL detectado: ${mimeType}`);
+    console.log(`ℹ️ MimeType REAL detected: ${mimeType}`);
 
     const prompt = `
       You are an expert document analyzer. 
@@ -70,10 +66,8 @@ export const documentWorker = new Worker('document-processing', async (job: Job<
       }
     `;
 
-    console.log("🤖 Enviando a LLM (via Factory)...");
+    console.log("🤖 Sending to LLM (via Factory)...");
     
-    // 👇 CAMBIO CLAVE: Usamos el Factory. 
-    // Ya no nos importa qué modelo es, el Factory se encarga.
     let structuredOutput;
     try {
       structuredOutput = await llm.generateJSON(prompt, {
@@ -81,24 +75,22 @@ export const documentWorker = new Worker('document-processing', async (job: Job<
         mimeType: mimeType
       });
     } catch (e) {
-      console.error("Error en LLM Factory:", e);
-      throw new Error("Falló la generación de contenido en el LLM");
+      console.error("Error at LLM Factory:", e);
+      throw new Error("Failed to generate JSON from LLM");
     }
 
-    let fullText = structuredOutput.fullText || "Texto no extraído.";
-    // Limpiamos metadata para no guardar el fullText duplicado en el JSON
+    let fullText = structuredOutput.fullText || "Text not extracted.";
+  
     delete structuredOutput.fullText;
 
     // --- PII REDACTION ---
-    console.log("🕵️  Detectando y Redactando PII...");
+    console.log("🕵️  Detecting y Redacting PII...");
     const cleanText = await PiiService.redact(fullText);
 
     if (structuredOutput.summary) {
-        console.log("🧹 Redactando PII del resumen...");
+        console.log("🧹 Redacting PII from summary...");
         structuredOutput.summary = await PiiService.redact(structuredOutput.summary);
     }
-    
-    // 📝 AUDIT LOG: PII Redaction exitosa
     await prisma.auditLog.create({
         data: { 
             action: 'PII_REDACTION', 
@@ -107,16 +99,14 @@ export const documentWorker = new Worker('document-processing', async (job: Job<
         }
     });
     
-    console.log(`🛡️  Longitud: ${fullText.length} -> ${cleanText.length}`);
+    console.log(`🛡️  Length: ${fullText.length} -> ${cleanText.length}`);
 
     // --- EMBEDDINGS ---
     const chunks = splitText(cleanText, CHUNK_SIZE, CHUNK_OVERLAP);
-    console.log(`🧠 Generando embeddings para ${chunks.length} fragmentos...`);
-
+    console.log(`🧠 Generating embeddings for ${chunks.length} chunks...`);
     for (const chunk of chunks) {
       if (!chunk.trim()) continue;
 
-      // 👇 CAMBIO CLAVE: Usamos Factory para Embeddings también
       const vector = await llm.generateEmbedding(chunk);
 
       await prisma.$executeRaw`
@@ -134,7 +124,6 @@ export const documentWorker = new Worker('document-processing', async (job: Job<
       }
     });
 
-    // 📝 AUDIT LOG: Éxito total
     await prisma.auditLog.create({
         data: { action: 'PROCESS_COMPLETE', status: 'SUCCESS', details: `Document ${documentId} ready.` }
     });
@@ -144,7 +133,6 @@ export const documentWorker = new Worker('document-processing', async (job: Job<
   } catch (error: any) {
     console.error(`❌ Error processing document ${documentId}:`, error);
     
-    // 📝 AUDIT LOG: Error
     await prisma.auditLog.create({
         data: { action: 'PROCESS_FAILED', status: 'FAILURE', details: error.message || 'Unknown error' }
     });

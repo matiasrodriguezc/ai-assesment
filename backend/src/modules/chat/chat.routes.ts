@@ -3,8 +3,7 @@ import { authenticateToken } from '../../middleware/auth.middleware';
 import * as RagService from '../../services/rag.service';
 import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
-// 1. IMPORTAR LA CONFIGURACIÓN DE PROMPTS
-import { PROMPTS } from '../../config/prompts'; // <--- CAMBIO 1
+import { PROMPTS } from '../../config/prompts';
 
 interface AuthRequest extends Request {
   user?: {
@@ -27,20 +26,14 @@ router.post('/', authenticateToken, async (req: Request, res: Response) => {
     
     const { message } = ChatSchema.parse(req.body);
     const userId = authReq.user!.userId;
-
-    // Configurar Headers para Streaming (SSE)
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
-
-    // Mantenemos tu feedback de estado visual (Muy bueno para UX)
     res.write(`event: status\ndata: finding_context\n\n`);
     
     const context = await RagService.retrieveContext(message, userId);
 
-    // 2. USAR EL PROMPT VERSIONADO
-    // En lugar de escribir el string aquí, lo traemos de la config
-    const systemPrompt = PROMPTS.v1.rag_system(context || "No relevant documents found."); // <--- CAMBIO 2
+    const systemPrompt = PROMPTS.v1.rag_system(context || "No relevant documents found."); 
 
     res.write(`event: status\ndata: generating\n\n`);
 
@@ -76,9 +69,7 @@ router.post('/feedback', authenticateToken, async (req: Request, res: Response) 
             messageId,
             isPositive,
             comment,
-            // 3. GUARDAR LA VERSIÓN REAL DEL PROMPT
-            // Esto permite saber qué versión usó el usuario al momento de dar feedback
-            promptVersion: promptVersion || PROMPTS.current_version, // <--- CAMBIO 3
+            promptVersion: promptVersion || PROMPTS.current_version,
             modelUsed: modelUsed || 'gemini-2.5-flash'
         }
     });

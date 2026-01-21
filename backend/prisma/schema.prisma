@@ -16,7 +16,7 @@ model User {
   createdAt    DateTime   @default(now())
   
   documents    Document[]
-  feedbacks    Feedback[] // Relación para saber quién dio feedback
+  feedbacks    Feedback[]
 }
 
 enum DocStatus {
@@ -37,11 +37,11 @@ model Document {
   
   status       DocStatus   @default(PENDING)
   
-  // Aquí guardamos el "Structured Output" (Requisito 1.1)
-  // Ej: { "summary": "...", "tags": ["AI", "Finance"] }
+
+  // Eg: { "summary": "...", "tags": ["AI", "Finance"] }
   metadata     Json?       
   
-  content      String?     @db.Text // Texto extraído crudo
+  content      String?     @db.Text // Raw data extracted
   
   embeddings   Embedding[]
   createdAt    DateTime    @default(now())
@@ -52,15 +52,14 @@ model Embedding {
   documentId String
   document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
   
-  content    String   @db.Text // El chunk de texto específico
+  content    String   @db.Text // Specific text chunk
   
-  // IMPORTANTE: Prisma no soporta el tipo 'vector' nativamente en el schema DSL todavía.
-  // Usamos Unsupported para que Prisma no se rompa, y gestionaremos los vectores con raw SQL.
+
   vector     Unsupported("vector(768)")
   
   createdAt  DateTime @default(now())
   
-  // Índice para búsqueda rápida (IVFFlat o HNSW)
+  
   @@index([documentId])
 }
 
@@ -69,21 +68,20 @@ model Feedback {
   userId        String?
   user          User?    @relation(fields: [userId], references: [id])
   
-  messageId     String   // ID del mensaje del chat (generado por frontend o backend)
-  isPositive    Boolean  // true = 👍, false = 👎 (Requisito 2.2)
-  comment       String?  // Opcional: "¿Qué salió mal?"
+  messageId     String   
+  isPositive    Boolean  // true = 👍, false = 👎
+  comment       String? 
   
-  // CRÍTICO para "Detect Regressions" (Requisito 2.2)
-  promptVersion String   // Ej: "v1.2.0"
-  modelUsed     String   // Ej: "gpt-4o-mini"
+  promptVersion String  
+  modelUsed     String   
   
   createdAt     DateTime @default(now())
 }
 
 model AuditLog {
   id        String   @id @default(uuid())
-  action    String   // Ej: "UPLOAD_DOCUMENT", "QUERY_LLM", "PII_REDACTION"
-  details   String?  // Ej: "User uploaded confidential.pdf", "Detected Credit Card"
+  action    String   
+  details   String?
   status    String   // "SUCCESS", "FAILURE"
   timestamp DateTime @default(now())
 }

@@ -1,13 +1,10 @@
-// backend/src/services/llm/llmFactory.ts
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// 1. Definimos la Interfaz (El contrato)
 export interface ILLMProvider {
   generateJSON(prompt: string, fileData?: { data: string, mimeType: string }): Promise<any>;
   generateEmbedding(text: string): Promise<number[]>;
 }
 
-// 2. Implementación de Google Gemini (La que usas hoy)
 class GeminiProvider implements ILLMProvider {
   private genAI: GoogleGenerativeAI;
   private model: any;
@@ -15,7 +12,6 @@ class GeminiProvider implements ILLMProvider {
 
   constructor(apiKey: string) {
     this.genAI = new GoogleGenerativeAI(apiKey);
-    // Usamos el 1.5 Flash por estabilidad, o el que tengas en ENV
     this.model = this.genAI.getGenerativeModel({ model: "gemini-2.5-flash", generationConfig: { responseMimeType: "application/json" } });
     this.embeddingModel = this.genAI.getGenerativeModel({ model: "text-embedding-004" });
   }
@@ -27,7 +23,6 @@ class GeminiProvider implements ILLMProvider {
     }
     const result = await this.model.generateContent(parts);
     const text = result.response.text();
-    // Limpieza básica de JSON markdown
     const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
     return JSON.parse(jsonStr);
   }
@@ -38,7 +33,6 @@ class GeminiProvider implements ILLMProvider {
   }
 }
 
-// 3. Implementación Mock (Para demostrar que puedes cambiar)
 class MockProvider implements ILLMProvider {
   async generateJSON(prompt: string): Promise<any> {
     console.log("⚠️ MOCK LLM CALLED");
@@ -49,7 +43,6 @@ class MockProvider implements ILLMProvider {
   }
 }
 
-// 4. La Fábrica (Decide cuál usar)
 export class LLMFactory {
   static getProvider(): ILLMProvider {
     const providerType = process.env.AI_PROVIDER || 'GEMINI';

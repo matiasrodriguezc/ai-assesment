@@ -22,15 +22,13 @@ export const registerUser = async (email: string, password: string) => {
 };
 
 export const loginUser = async (email: string, password: string) => {
-  // 1. Buscar usuario
+  // 1. Search user
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) throw new Error('Invalid credentials');
-
-  // 2. Comparar password
+  // 2. Compare password
   const isValid = await bcrypt.compare(password, user.passwordHash);
   if (!isValid) throw new Error('Invalid credentials');
-
-  // 3. Generar Token JWT
+  // 3. Generate JWT Token
   const token = jwt.sign(
     { userId: user.id, email: user.email }, 
     JWT_SECRET, 

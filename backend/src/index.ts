@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 
-// IMPORTAR RUTAS
 import authRoutes from './modules/auth/auth.routes';
 import documentRoutes from './modules/documents/documents.routes';
 import chatRoutes from './modules/chat/chat.routes';
@@ -18,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(helmet());
 app.use(cors({
-  origin: '*', // Permitir todo origen (solo para dev)
+  origin: '*', //just for development purposes, restrict in production
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -27,7 +26,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/chat', chatRoutes);
 
-// Rate limiter (Requisito 1.2)
+// Rate limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 100,
@@ -35,7 +34,6 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// USAR RUTAS
 app.use('/api/auth', authRoutes);
 
 app.get('/health', (req, res) => {

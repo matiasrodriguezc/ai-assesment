@@ -18,8 +18,6 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
   jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
     if (err) return res.status(403).json({ error: 'Invalid or expired token' });
-    
-    // CASTING AL ASIGNAR
     (req as AuthRequest).user = user;
     next();
   });

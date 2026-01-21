@@ -4,7 +4,6 @@ import * as AuthService from './auth.service';
 
 const router = Router();
 
-// Esquema de validación
 const AuthSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),

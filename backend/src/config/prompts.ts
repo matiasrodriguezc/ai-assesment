@@ -1,5 +1,5 @@
 export const PROMPTS = {
-  // Metadatos para auditoría
+  // Metadata
   current_version: 'v1.0.0',
   
   v1: {

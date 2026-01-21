@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client';
 import { documentQueue } from '../../infrastructure/queue';
 import { authenticateToken } from '../../middleware/auth.middleware';
 
-// 1. DEFINIMOS LA INTERFAZ AQUÍ MISMO (Para que TS no se queje nunca más)
 interface AuthRequest extends Request {
   user?: {
     userId: string;
@@ -16,17 +15,13 @@ const router = Router();
 const prisma = new PrismaClient();
 const upload = multer({ dest: 'uploads/' });
 
-// Usamos 'as AuthRequest' para decirle a TS: "Confía en mí, esto tiene user"
 router.post('/', authenticateToken, upload.single('file'), async (req: Request, res: Response) => {
   try {
-    // CASTING MANUAL AQUÍ
     const authReq = req as AuthRequest;
-
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-
     const doc = await prisma.document.create({
       data: {
-        userId: authReq.user!.userId, // <--- AHORA SÍ LO RECONOCE
+        userId: authReq.user!.userId, 
         filename: req.file.filename,
         originalName: req.file.originalname,
         mimeType: req.file.mimetype,
@@ -51,9 +46,7 @@ router.post('/', authenticateToken, upload.single('file'), async (req: Request, 
 });
 
 router.get('/', authenticateToken, async (req: Request, res: Response) => {
-  // CASTING MANUAL AQUÍ TAMBIÉN
   const authReq = req as AuthRequest;
-  
   const docs = await prisma.document.findMany({
     where: { userId: authReq.user!.userId },
     orderBy: { createdAt: 'desc' }

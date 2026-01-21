@@ -12,7 +12,6 @@ interface Message {
   status?: 'finding_context' | 'generating' | 'done';
 }
 
-// Tipos para el estado del Modal
 type ModalState = 
   | { type: 'CLOSED' }
   | { type: 'COMMENT_INPUT'; messageId: string }
@@ -26,7 +25,6 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // ESTADO PARA LOS MODALES
   const [modal, setModal] = useState<ModalState>({ type: 'CLOSED' });
   const [commentText, setCommentText] = useState('');
 
@@ -116,28 +114,22 @@ export default function Chat() {
     setMessages(prev => prev.map(m => m.id === id ? { ...m, content: m.content + text } : m));
   };
 
-  // --- NUEVA LÓGICA DE FEEDBACK ---
-  
-  // 1. Inicia el flujo
   const onFeedbackClick = (messageId: string, isPositive: boolean) => {
     if (isPositive) {
-      // Si es Like, enviamos directo
+      
       submitFeedback(messageId, true, null);
     } else {
-      // Si es Dislike, abrimos el modal de comentario
-      setCommentText(''); // Limpiar previo
+      setCommentText('');
       setModal({ type: 'COMMENT_INPUT', messageId });
     }
   };
 
-  // 2. Envía a la API
   const submitFeedback = async (messageId: string, isPositive: boolean, comment: string | null) => {
     try {
       await api.post('/chat/feedback', { messageId, isPositive, comment });
-      // Cerrar input y mostrar éxito
+      
       setModal({ type: 'SUCCESS', message: isPositive ? 'Glad you liked it!' : 'Thanks for helping us improve.' });
       
-      // Auto-cerrar el modal de éxito después de 2 segs
       setTimeout(() => {
         setModal(prev => prev.type === 'SUCCESS' ? { type: 'CLOSED' } : prev);
       }, 2500);
@@ -154,7 +146,7 @@ export default function Chat() {
       {modal.type !== 'CLOSED' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/20 backdrop-blur-sm animate-in fade-in duration-200">
           
-          {/* MODAL: INPUT COMENTARIO */}
+          {/* MODAL: INPUT COMMENT */}
           {modal.type === 'COMMENT_INPUT' && (
             <div className="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm border border-slate-100 animate-in zoom-in-95 duration-200">
               <div className="flex justify-between items-center mb-4">

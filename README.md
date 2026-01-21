@@ -43,6 +43,110 @@ AI inference is slow and bursty. Instead of blocking the REST API:
 - **Prompt Injection Mitigation:** User inputs are never interpolated directly into system instructions. All user content is passed as bounded context blocks after sanitization. The assistant is strictly instructed to ignore instructions not present in the retrieved context.
 
 ---
+## 📂 Project Structure
+```
+.
+├── .gitignore
+├── docker-compose.yml
+├── README.md
+
+├── backend/
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── tsconfig.json
+│   │
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   └── migrations/
+│   │       ├── migration_lock.toml
+│   │       └── 20260120163919_init_gemini/
+│   │           └── migration.sql
+│   │
+│   └── src/
+│       ├── index.ts
+│       ├── types.d.ts
+│       │
+│       ├── @types/
+│       │   └── express/
+│       │       └── index.d.ts
+│       │
+│       ├── config/
+│       │   └── prompts.ts
+│       │
+│       ├── domain/
+│       │   └── ai/
+│       │       └── LLMProvider.ts
+│       │
+│       ├── infrastructure/
+│       │   └── queue.ts
+│       │
+│       ├── middleware/
+│       │   └── auth.middleware.ts
+│       │
+│       ├── modules/
+│       │   ├── auth/
+│       │   │   ├── auth.routes.ts
+│       │   │   └── auth.service.ts
+│       │   ├── chat/
+│       │   │   └── chat.routes.ts
+│       │   └── documents/
+│       │       └── documents.routes.ts
+│       │
+│       ├── services/
+│       │   ├── pii.service.ts
+│       │   ├── rag.service.ts
+│       │   └── llm/
+│       │       └── llmFactory.ts
+│       │
+│       └── workers/
+│           └── document.worker.ts
+
+├── frontend/
+│   ├── .gitignore
+│   ├── README.md
+│   ├── index.html
+│   ├── eslint.config.js
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── vite.config.ts
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── tsconfig.json
+│   ├── tsconfig.app.json
+│   ├── tsconfig.node.json
+│   │
+│   ├── public/
+│   │   └── vite.svg
+│   │
+│   └── src/
+│       ├── main.tsx
+│       ├── App.tsx
+│       ├── App.css
+│       ├── index.css
+│       │
+│       ├── api/
+│       │   └── client.ts
+│       │
+│       ├── assets/
+│       │   └── react.svg
+│       │
+│       ├── context/
+│       │   └── AuthContext.tsx
+│       │
+│       └── pages/
+│           ├── Login.tsx
+│           ├── Dashboard.tsx
+│           └── Chat.tsx
+
+└── infra/
+    ├── main.tf
+    ├── variables.tf
+    └── outputs.tf
+```
+
 
 ## ☁️ Infrastructure & Deployment
 
