@@ -1,0 +1,51 @@
+import axios from 'axios';
+
+export class PiiService {
+  static async redact(text: string): Promise<string> {
+    // 1. LEER VARIABLES DENTRO DE LA FUNCIÓN (Evita problemas de caché al iniciar)
+    // Si la variable está vacía o mal configurada, forzamos localhost
+    const ANALYZER_URL = process.env.PRESIDIO_ANALYZER_URL?.includes('presidio-analyzer') 
+      ? 'http://localhost:5001' // Si detectamos el nombre de docker por error, forzamos localhost
+      : (process.env.PRESIDIO_ANALYZER_URL || 'http://localhost:5001');
+
+    const ANONYMIZER_URL = process.env.PRESIDIO_ANONYMIZER_URL?.includes('presidio-anonymizer')
+      ? 'http://localhost:5002'
+      : (process.env.PRESIDIO_ANONYMIZER_URL || 'http://localhost:5002');
+
+    // 🔍 DEBUG: Esto se imprimirá en tu terminal. Míralo bien.
+    console.log(`🔌 PII Service conectando a: ${ANALYZER_URL}`);
+
+    try {
+      // 2. ANALIZAR
+      const analyzeResponse = await axios.post(`${ANALYZER_URL}/analyze`, {
+        text: text,
+        language: "en",
+        return_decision_process: false
+      });
+
+      const findings = analyzeResponse.data;
+
+      if (findings.length === 0) return text;
+
+      // 3. ANONIMIZAR
+      const anonymizeResponse = await axios.post(`${ANONYMIZER_URL}/anonymize`, {
+        text: text,
+        analyzer_results: findings,
+        anonymizers: {
+          DEFAULT: { type: "replace", new_value: "<REDACTED>" },
+          PHONE_NUMBER: { type: "replace", new_value: "<PHONE>" },
+          EMAIL_ADDRESS: { type: "replace", new_value: "<EMAIL>" },
+          PERSON: { type: "replace", new_value: "<PERSON>" },
+          CREDIT_CARD: { type: "replace", new_value: "<CREDIT_CARD>" }
+        }
+      });
+
+      return anonymizeResponse.data.text;
+
+    } catch (error) {
+      console.error(`⚠️ Error conectando con Presidio en ${ANALYZER_URL}`);
+      // Si falla, devolvemos el texto original para no romper la app (Fail-open)
+      return text;
+    }
+  }
+}

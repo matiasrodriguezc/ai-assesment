@@ -1,0 +1,22 @@
+# Node
+node_modules
+dist
+build
+coverage
+
+# Environment
+.env
+.env.local
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+terraform/.terraform
+terraform/*.tfstate*

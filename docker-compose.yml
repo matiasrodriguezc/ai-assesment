@@ -1,0 +1,65 @@
+services:
+  # 🧠 TU CÓDIGO (BACKEND)
+  backend:
+    container_name: ai_backend
+    build: ./backend 
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+      - presidio-analyzer
+    environment:
+      DATABASE_URL: postgresql://admin:password123@ai_postgres:5432/ai_assessment_db
+      REDIS_HOST: ai_redis
+      REDIS_PORT: 6379
+      # Presidio ahora es accesible por su nombre de contenedor
+      PRESIDIO_ANALYZER_URL: http://presidio-analyzer:3000
+      PRESIDIO_ANONYMIZER_URL: http://presidio-anonymizer:3000
+      GEMINI_API_KEY: ${GEMINI_API_KEY} # Lee esto de tu archivo .env local
+      PORT: 3000
+    restart: always
+
+  # 🗄️ BASE DE DATOS
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: ai_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: ai_assessment_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  # ⚡ CACHÉ / COLAS
+  redis:
+    image: redis:alpine
+    container_name: ai_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  # 🕵️ SEGURIDAD PII (Analyzer)
+  presidio-analyzer:
+    image: mcr.microsoft.com/presidio-analyzer:latest
+    container_name: presidio-analyzer
+    restart: always
+    ports:
+      - "5001:3000"
+
+  # 🛡️ SEGURIDAD PII (Anonymizer)
+  presidio-anonymizer:
+    image: mcr.microsoft.com/presidio-anonymizer:latest
+    container_name: presidio-anonymizer
+    restart: always
+    ports:
+      - "5002:3000"
+
+volumes:
+  postgres_data:
+  redis_data:

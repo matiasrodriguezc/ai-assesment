@@ -1,0 +1,88 @@
+﻿La Historia Profesional de Matías Rodríguez Cárdenas: De la Ingeniería de Software a la Inteligencia Artificial Aplicada
+1. Introducción y Perfil Profesional
+Matías Rodríguez Cárdenas es un Ingeniero de Sistemas graduado de la Universidad Nacional del Centro de la Provincia de Buenos Aires (UNICEN), cuya carrera se define por una evolución técnica deliberada y estratégica. Su perfil profesional es un híbrido poco común: comenzó dominando el desarrollo de software tradicional (Full Stack) para luego especializarse profundamente en la intersección de la Ingeniería de Datos, MLOps y la Inteligencia Artificial Generativa.
+Matías no se limita a escribir código; posee una "mentalidad orientada al producto". Esto significa que cada decisión técnica que toma —desde la elección de una base de datos hasta la arquitectura de un microservicio— está alineada con la escalabilidad del negocio y la experiencia del usuario final. Su capacidad para comunicarse fluidamente en inglés (Nivel C1 certificado) le permite liderar iniciativas técnicas en equipos globales y multidisciplinarios.
+Actualmente, su foco está puesto en la construcción de agentes autónomos, sistemas RAG (Retrieval-Augmented Generation) avanzados y pipelines de datos resilientes, buscando siempre la eficiencia y la automatización de procesos complejos.
+2. Fundamentos Académicos y Formación Continua
+La base teórica de Matías se forjó en Tandil, Argentina, durante sus estudios universitarios (2020-2024). Allí adquirió los fundamentos de la ingeniería de software: algoritmos, estructuras de datos, patrones de diseño y arquitectura de sistemas.
+Sin embargo, Matías se distingue por su voracidad autodidacta y su necesidad de mantenerse en la vanguardia tecnológica. Complementó su título de grado con una serie de especializaciones intensivas:
+* AI Engineer Bootcamp (2025 - Udemy): Donde formalizó sus conocimientos en Large Language Models (LLMs), frameworks de orquestación como LangChain y diseño de agentes inteligentes.
+* Java Backend Bootcamp (2024 - Lamansys): Donde perfeccionó el desarrollo de APIs RESTful robustas, manejo de transacciones y arquitectura hexagonal.
+* Frontend Web Developer Course (2024 - Udemy): Para dominar la capa visual y asegurar que sus soluciones de backend tuvieran interfaces de usuario a la altura.
+* Seminario Developer Boost: IA Generativa para Desarrollo de Software (Cluster Tecnológico Tandil, 2025):Un programa de alto rendimiento enfocado en la aplicación práctica de IA en el ciclo de vida del software (SDLC). Matías profundizó en arquitecturas basadas en LLMs y RAG avanzado, y dominó el uso de Agentes Autónomospara tareas de DevOps y Testing. Lo más destacado fue su adopción de herramientas de vanguardia como Cursor, Windsurf y GitHub Copilot, así como la integración de MCP (Model Context Protocol) y generación de UI con IA, culminando con un proyecto integrador de arquitectura compleja.
+* Data Engineering Bootcamp: From Beginner to Job-Ready (2025): Instruido por ingenieros de Meta, este bootcamp fue clave para consolidar su perfil de datos. Matías adquirió habilidades avanzadas en SQL para manipulación de datos complejos y diseño de Pipelines ETL/ELT automatizados con Apache Airflow. Se formó en infraestructura Cloud (AWS Glue, Google BigQuery) y aprendió a manejar la seguridad, el monitoreo y la optimización de costos en grandes volúmenes de datos.
+* The Data Science Course 2024: Complete Data Science Bootcamp: Para no ser solo un implementador de librerías, Matías buscó comprender la matemática detrás de los modelos. Este curso le brindó una base sólida en Cálculo, Álgebra Lineal y Estadística Avanzada. Aprendió a aplicar técnicas de regresión, clustering y Deep Learning con TensorFlow, complementando su perfil técnico con habilidades de Business Intelligence y visualización de datos en Tableau para comunicar insights a stakeholders no técnicos.
+* Bootcamps de Desarrollo Full Stack (2024):
+   * Java Backend (Lamansys): Donde perfeccionó el desarrollo de APIs RESTful robustas y arquitectura hexagonal.
+   * Frontend Web Developer: Para dominar la capa visual (React) y asegurar interfaces de usuario de alta calidad. Con Angular como herramienta.
+* Idiomas: Posee el certificado EF SET nivel C1 (Avanzado, 2024) y el First Certificate (B2) de Cambridge (2018), lo que valida su competencia para entornos angloparlantes.
+3. Experiencia Profesional: Impacto en la Industria
+A. Abaco Informática: Modernización y Optimización (2024 - Presente)
+Como Full Stack Developer en Abaco Informática, Matías asumió el rol de catalizador tecnológico. Su trabajo se centró en transformar sistemas legados en arquitecturas modernas y eficientes.
+* Migración Frontend de Alto Riesgo: El proyecto principal sufría de deuda técnica, montado sobre Create React App (CRA). Matías lideró la migración completa hacia Vite. No fue solo un cambio de herramienta; implicó resolver conflictos de dependencias profundos, actualizar paquetes obsoletos y reestructurar el código para aprovechar el Hot Module Replacement (HMR), reduciendo drásticamente los tiempos de carga y mejorando la productividad de todo el equipo de desarrollo.
+* Ingeniería de Base de Datos (Vistas Materializadas): El sistema enfrentaba problemas de rendimiento con consultas analíticas en tiempo real. Matías diseñó una estrategia de optimización basada en Vistas Materializadas (Materialized Views). Esto redujo la carga computacional del motor de base de datos en momentos críticos, permitiendo reportes instantáneos sin bloquear la operatividad transaccional.
+* Ingeniería Frontend Avanzada (AG Grid): Reemplazó la librería legacy DataTables por AG Grid, implementando una solución ingeniosa: desarrolló un parser del lado del cliente (usando DOMParser) capaz de leer HTML crudo legado y transformarlo dinámicamente en grillas interactivas modernas. Implementó filtros por tipo de dato, ordenamiento multicolumna y exportación a Excel/PDF.
+* Herramientas de Productividad (DebugView): Para eliminar la dependencia del equipo de desarrollo sobre el acceso SSH a los servidores, Matías arquitectó "DebugView", una consola integrada en el frontend que permite visualizar logs del backend en tiempo real y ejecutar consultas SQL de diagnóstico de forma segura.
+B. Cleatus AI: Innovación en Interfaces de IA (2025)
+En su rol de Full Stack Developer Intern (Remoto), Matías trabajó en la frontera de la interacción humano-IA para el sector gubernamental (GovTech).
+* Renovación de GovCon AI: Lideró el rediseño completo de la experiencia de usuario (UI/UX) del asistente conversacional GovCon AI. Transformó una interfaz funcional pero básica en una experiencia moderna y fluida, aumentando la retención de usuarios.
+* Analítica de Datos: Diseñó e implementó dashboards analíticos para visualizar métricas de licitaciones (procurement). Esto requirió que Matías ejecutara modificaciones en el esquema de la base de datos para soportar nuevas agregaciones y optimizara las consultas para que los tableros cargaran instantáneamente.
+4. Portafolio de Proyectos: Ingeniería de Software aplicada a la IA
+Matías cuenta con un portafolio de proyectos que demuestran su capacidad para construir sistemas complejos "End-to-End", desde la infraestructura hasta la interfaz de usuario.
+Proyecto Estrella: AutoBid AI (Plataforma Inteligente de Licitaciones)
+Este es el proyecto más ambicioso de Matías, una plataforma SaaS diseñada para revolucionar cómo las empresas analizan y responden a licitaciones. Combina IA Generativa (GenAI) con Machine Learning tradicional (Predictive AI).
+* El Problema: El análisis de pliegos de licitación es lento y la redacción de propuestas es repetitiva.
+* Solución Técnica:
+   * IA Híbrida: Matías integró Google Gemini para el análisis semántico y la generación de propuestas (RAG), y un modelo de Random Forest (Scikit-learn) para predecir la probabilidad matemática de ganar una licitación basándose en el historial.
+   * Explainability (XAI): No se limitó a dar un número; implementó SHAP para explicar por qué el modelo predice una victoria o derrota, brindando transparencia al usuario.
+   * RAG Avanzado: Utilizó Pinecone como base de datos vectorial con arquitectura multi-tenant (cada usuario tiene su espacio aislado). El sistema categoriza automáticamente documentos subidos (CVs, casos de éxito) para usarlos en la generación de propuestas.
+   * Seguridad y Privacidad: Implementó Presidio para la anonimización automática de datos sensibles antes de enviarlos a las APIs de IA, y Clerk para una autenticación robusta.
+   * Stack: Next.js 14, FastAPI, PostgreSQL, SQLAlchemy, Docker Compose.
+Proyecto 2: AI-Powered K-Means Clustering App (Business Intelligence Generativa)
+Este proyecto representa la fusión entre el Machine Learning clásico y la IA Generativa moderna, actuando como una herramienta de "Generative BI".
+* El Problema: El clustering matemático (K-Means) agrupa datos, pero no explica qué significan esos grupos para el negocio.
+* Solución Técnica:
+   * Análisis Matemático: Matías implementó un motor de K-Means que incluye la optimización automática mediante el "Método del Codo" (Elbow Method) y preprocesamiento con normalización Z-score.
+   * Interpretación Semántica: Lo innovador es que el sistema envía las estadísticas de los clústeres (centroides, densidad) a Google Gemini 1.5 Flash, el cual "interpreta" los datos y genera nombres de segmentos de mercado (ej. "Clientes Leales") y estrategias de negocio.
+   * Visualización Interactiva: Utilizó Recharts para crear gráficos de dispersión dinámicos e interactivos en el frontend.
+   * Privacidad: Diseñó la arquitectura para enviar solo heurísticas estadísticas al LLM, protegiendo los datos crudos del usuario.
+Proyecto 3: Fluent (Plataforma de Ingesta de Datos y Agentes LLM)
+Una plataforma integral diseñada para la ingestión, procesamiento y consulta semántica de datos heterogéneos.
+* El Problema: La fragmentación de datos en formatos diversos (PDF, Excel, Bases de Datos) dificulta la creación de sistemas RAG unificados.
+* Solución Técnica:
+   * Ingesta Universal: Desarrolló conectores para archivos planos (CSV, XLSX, PDF) y conexiones directas a bases de datos externas (MySQL, PostgreSQL, Google Sheets).
+   * Búsqueda Semántica: Integró Pinecone para vectorizar la información ingerida, permitiendo a los usuarios "chatear" con sus bases de datos y documentos mediante agentes de LangChain.
+   * Arquitectura: Backend modular en FastAPI (Python) y frontend moderno en Next.js. Todo el sistema es dockerizable para un despliegue rápido en cualquier infraestructura.
+Proyecto 4: Chatbot con Pipeline ETL Automatizado
+Una demostración de Ingeniería de Datos aplicada a la marca personal.
+* Concepto: Un chatbot "Chatea con mi CV" que siempre está actualizado.
+* Ingeniería de Datos: Matías construyó un pipeline ETL automatizado con Apache Airflow. El sistema monitorea el repositorio de GitHub donde se aloja su CV en PDF.
+* Automatización: Al detectar un commit con cambios en el PDF, Airflow dispara un proceso que descarga el archivo, lo procesa, genera nuevos embeddings y actualiza la base de datos vectorial (ChromaDB) sin intervención humana.
+* Arquitectura: Backend en FastAPI, LLM Gemini, totalmente dockerizado.
+Proyecto 5: MLOps para Predicción de Ausentismo
+Un sistema diseñado para demostrar el ciclo de vida completo de un modelo de Machine Learning en producción.
+* MLOps Real: El sistema no es estático. Cuenta con un pipeline en Airflow que detecta la ingesta de nuevos datos de ausentismo en la base de datos (Vercel Postgres).
+* Reentrenamiento Automático: Si hay suficientes datos nuevos, el sistema reentrena el modelo, evalúa si su performance supera al modelo actual y, de ser así, actualiza los artefactos en producción.
+* Visualización: Integra un dashboard de Tableau Public embebido en una aplicación Next.js para el análisis de tendencias históricas.
+5. Arsenal Tecnológico (Tech Stack)
+El conocimiento de Matías se estructura en cuatro pilares fundamentales:
+1. Inteligencia Artificial & Data Engineering:
+   * GenAI: RAG, LangChain, Google Gemini API, Prompt Engineering.
+   * Machine Learning: Scikit-learn (Random Forest, K-Means), SHAP (Explainability), Presidio (Data Anonymization).
+   * Vector DBs: Pinecone, ChromaDB.
+   * Orquestación: Apache Airflow (ETL & MLOps pipelines).
+2. Backend Engineering:
+   * Lenguajes: Python (Experto), Java (Sólido).
+   * Frameworks: FastAPI (Preferido por velocidad/async), Django (Conocimiento de arquitectura MVT), Spring Boot.
+   * Bases de Datos: PostgreSQL (SQLAlchemy, Vistas Materializadas), Amazon DynamoDB (Single Table Design), MySQL.
+3. Frontend Development:
+   * Core: React, Next.js 14 (App Router).
+   * Build Tools: Vite.
+   * Styling & UI: Tailwind CSS, Shadcn/ui, AG Grid, Recharts.
+   * Auth: Clerk, JWT, AWS Cognito.
+4. DevOps & Cloud:
+   * Containerización: Docker, Docker Compose.
+   * Cloud (AWS): S3 (Hosting), CloudFront (CDN), DynamoDB, Cognito.
+   * Deploy: Vercel, Render, Railway, Koyeb
+6. Filosofía Profesional
+Matías Rodríguez Cárdenas representa la nueva generación de ingenieros de software: aquellos que no ven la IA como una "caja negra", sino como un componente de ingeniería más que debe ser orquestado, optimizado y asegurado. Su carrera demuestra que es capaz de migrar sistemas legados críticos con la misma solvencia con la que entrena modelos predictivos o diseña arquitecturas de agentes autónomos. Su objetivo es claro: construir sistemas inteligentes que resuelvan problemas reales de forma escalable.
