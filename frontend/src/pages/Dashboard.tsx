@@ -27,10 +27,20 @@ export default function Dashboard() {
   });
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
+    const files = e.target.files;
+    
+    if (files && files.length > 0) {
       setUploading(true);
-      await uploadMutation.mutateAsync(e.target.files[0]);
-      setUploading(false);
+      const fileArray = Array.from(files);
+
+      try {
+        await Promise.all(fileArray.map(file => uploadMutation.mutateAsync(file)));
+      } catch (error) {
+        console.error("Error al subir algunos archivos", error);
+      } finally {
+        setUploading(false);
+        e.target.value = ''; 
+      }
     }
   };
 
@@ -121,6 +131,7 @@ export default function Dashboard() {
             type="file" 
             id="file" 
             className="hidden" 
+            multiple  // <--- IMPORTANTE: Agregado el atributo multiple
             accept=".pdf,.jpg,.jpeg,.png,.webp,.heic,.txt,.md,.csv,.json,.js,.ts,.py" 
             onChange={handleUpload} 
             disabled={uploading} 
@@ -134,7 +145,8 @@ export default function Dashboard() {
               </div>
             )}
             <span className="text-lg font-semibold text-gray-700 mb-2">
-              {uploading ? 'Processing your document...' : 'Upload a new document'}
+              {/* Texto actualizado a plural */}
+              {uploading ? 'Processing your documents...' : 'Upload documents'}
             </span>
             <span className="text-sm text-gray-500">
               {uploading ? 'Analyzing and protecting your data...' : 'Supports PDF, JPG, PNG, TXT, MD, CSV, JS...'}
